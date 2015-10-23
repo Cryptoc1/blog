@@ -1,7 +1,8 @@
 # Zipf
-[Zipf](https://youtu.be/fCn8zs912OE) is a blogging system written in python, using Flask and MongoDB.
+[Zipf](https://youtu.be/fCn8zs912OE) is a blogging system written in python, using Flask and MongoDB. To see an example of this system, see my personal [blog](https://cryptoc1.github.io).
 
 **THIS IS A BETA AND MAY BREAK EASILY**
+
 
 ## Setup
 Currently, Zipf is designed to be a server-side api, which can take requests from clients for posts. This is probably pretty backwards, and will most likely be reimplemented later on.
@@ -29,6 +30,6 @@ More information can be found in `DOC.md`.
 - [ ] Make some "Zipf Header" parameters optional
 - [ ] Add sort parameters to the endpoints
 - [ ] Additional endpoints (`/api/v1/posts/tag/<tag>`)
-
+- [ ] Better CORS Header management
 
 ##### As always, please open issues and make pull requests.

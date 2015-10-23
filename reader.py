@@ -3,7 +3,6 @@
 import os, sys, json, ast
 import pymongo
 from flask import *
-from flask.ext.cors import CORS
 import ConfigParser
 from bson.objectid import ObjectId
 
@@ -33,15 +32,14 @@ class Remote:
         return self.config.get('repo', 'remote').split()
 
 app = Flask(__name__)
-app.secret_key = "temp-key"
-cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
+# app.secret_key = "temp-key"
 remote = Remote()
 
 @app.route("/", methods=["GET"])
 def index():
     return redirect("https://cryptoc1.github.io")
 
-@app.route("/api/v1/posts", methods=["GET"])
+@app.route("/api/v1/posts", methods=["GET", "OPTIONS"])
 def all_posts():
     '''
     Returns <limit> number of posts, after <offset>. Queries of such matter are always sorted by an object's date property.
@@ -68,7 +66,9 @@ def all_posts():
                     ret.append(json.dumps(res))
                 for i, j in enumerate(ret):
                     ret[i] = ast.literal_eval(j)
-                return str(ret)
+                r = make_response(str(ret))
+                r.headers["Access-Control-Allow-Origin"] = "*"
+                return r
         except Exception as e:
             print "Unable to establish connection to remote. System returned: "
             print type(e)
@@ -77,7 +77,7 @@ def all_posts():
     else:
         return "405: Method Not Allowed"
 
-@app.route("/api/v1/posts/id/<post_id>", methods=["GET"])
+@app.route("/api/v1/posts/id/<post_id>", methods=["GET", "OPTIONS"])
 def id(post_id):
     if request.method == "GET":
         if not remote.Posts.find_one({"_id": ObjectId(post_id)}):
@@ -88,7 +88,9 @@ def id(post_id):
             else:
                 res = remote.Posts.find_one({"_id": ObjectId(post_id)})
                 res["_id"] = str(res["_id"])
-                return str(json.dumps(res))
+                r = make_response(str(json.dumps(res)))
+                r.headers["Access-Control-Allow-Origin"] = "*"
+                return r
     else:
         return "405: Method Not Allowed"
 
@@ -138,14 +140,16 @@ def author(author):
 #
 ###
 
-@app.route("/api/v1/ext/posts/count")
+@app.route("/api/v1/ext/posts/count", methods=["GET", "OPTIONS"])
 def post_count():
     '''
     Returns the number of entries in the Posts db
     '''
     if request.method == "GET":
         try:
-            return str(remote.Posts.count())
+            r = make_response(str(remote.Posts.count()))
+            r.headers["Access-Control-Allow-Origin"] = "*"
+            return r
         except Exception as e:
             print "Unable to establish connection to remote. System returned: "
             print type(e)
@@ -155,4 +159,4 @@ def post_count():
         return "405: Method Not Allowed"
 
 if __name__ == "__main__":
-    app.run(debug=True, threaded=True)
+    app.run()
