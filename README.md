@@ -26,7 +26,7 @@ More information can be found in `DOC.md`.
 - [ ] Refactor EVERYTHING
         * Make more portable
         * Improve efficiency
-- [ ] :tear: Ajax.. :crying:
+- [ ] :cry: Ajax.. :cold_sweat:
 - [ ] Make some "Zipf Header" parameters optional
 - [ ] Add sort parameters to the endpoints
 - [ ] Additional endpoints (`/api/v1/posts/tag/<tag>`)
