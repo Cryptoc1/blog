@@ -50,8 +50,8 @@ end_zipf:
 ...
 ```
 Notes:
-    * The `start_zipf:` line **MUST** by on line 0 (the first).
-    * `@tags@` should be a space separated list different, single-word tags.
+* The `start_zipf:` line **MUST** by on line 0 (the first).
+* `@tags@` should be a space separated list different, single-word tags.
 
 
 ## Models
