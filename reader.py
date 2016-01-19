@@ -3,41 +3,97 @@
 import os, sys, json, ast
 import pymongo
 from flask import *
-import ConfigParser
 from bson.objectid import ObjectId
+
+_version = "1.0.0b"
 
 class Remote:
     def __init__(self):
-        if not os.path.exists(os.getcwdu() + "/reader.cfg"):
-            ##
-            #  Put a real link to the DOCs here
-            ##
-            print "reader.cfg does not exist. This file is required, see https://github.com/cryptoc1/zipf/master/DOC.md"
-            sys.exit(1)
-        else:
-            try:
-                self.config = ConfigParser.ConfigParser()
-                self.config.read(os.getcwdu() + "/reader.cfg")
-                r = self.get_remote()
-                self.client = pymongo.MongoClient(r[0])
-                self.db = self.client[r[1]]
-                self.Posts = self.db.Posts
-            except Exception as e:
-                print "Unable to establish connection to remote. System returned: "
-                print type(e)
-                print e
-                sys.exit(-1)
-
-    def get_remote(self):
-        return self.config.get('repo', 'remote').split()
+        try:
+            uri = os.environ["REMOTE_URI"]
+            self.client = pymongo.MongoClient(uri)
+            self.db = self.client[uri[uri.rfind('/') + 1:]]
+            self.Posts = self.db.Posts
+        except Exception as e:
+            print "Unable to establish connection to remote. System returned: "
+            print type(e)
+            print e
+            sys.exit(-1)
 
 app = Flask(__name__)
-# app.secret_key = "temp-key"
 remote = Remote()
 
 @app.route("/", methods=["GET"])
 def index():
-    return redirect("https://cryptoc1.github.io")
+    try:
+        ret = []
+        for res in remote.Posts.find().sort("date.created", -1).limit(10):
+            res["_id"] = str(res["_id"])
+            ret.append(json.dumps(res))
+        for i, j in enumerate(ret):
+            ret[i] = ast.literal_eval(j)
+        return render_template('index.html', posts=ret)
+    except Exception as e:
+        print type(e)
+        print e
+        return render_template('index.html', error="There was an error loading posts.")
+
+'''
+@app.route("/posts")
+def posts():
+    try:
+        if remote.Posts.count() < 1:
+            return "404: Not Found\nNo entries."
+        else:
+            if request.args.get('offset') == None:
+                offset = 0
+            else:
+                offset = int(request.args.get('offset'))
+            if request.args.get('limit') == None:
+                limit = 100
+            else:
+                limit = int(request.args.get('limit'))
+            ret = []
+            for res in remote.Posts.find().sort("date.created", -1).limit(25):
+                res["_id"] = str(res["_id"])
+                ret.append(json.dumps(res))
+            for i, j in enumerate(ret):
+                ret[i] = ast.literal_eval(j)
+            return render_template('cryptoc1/posts.html', posts=ret)
+    except Exception as e:
+        print e
+        return redirect(url_for('error'))
+'''
+
+@app.route("/post/<post_id>", methods=["GET"])
+def post(post_id):
+    try:
+        res = remote.Posts.find_one({"_id": ObjectId(post_id)})
+        res["_id"] = str(res["_id"])
+        res = ast.literal_eval(json.dumps(res))
+        return render_template('post.html', post=res)
+    except Exception as e:
+        print type(e)
+        print e
+        return render_template('post.html', error="There was an error loading post.")
+
+'''
+@app.route("/tag/<tag>", methods=["GET"])
+def tag():
+    pass
+'''
+
+@app.route("/error", methods=["GET"])
+def error():
+    print request.args.get('error', '')
+    return render_template('error.html', error=request.args.get('error'. ''))
+
+
+##
+#
+#   API REST Endpoints
+#
+##
 
 @app.route("/api/v1/posts", methods=["GET", "OPTIONS"])
 def all_posts():
@@ -66,9 +122,7 @@ def all_posts():
                     ret.append(json.dumps(res))
                 for i, j in enumerate(ret):
                     ret[i] = ast.literal_eval(j)
-                r = make_response(str(ret))
-                r.headers["Access-Control-Allow-Origin"] = "*"
-                return r
+                return crossorigin(ret)
         except Exception as e:
             print "Unable to establish connection to remote. System returned: "
             print type(e)
@@ -78,7 +132,7 @@ def all_posts():
         return "405: Method Not Allowed"
 
 @app.route("/api/v1/posts/id/<post_id>", methods=["GET", "OPTIONS"])
-def id(post_id):
+def post_by_id(post_id):
     if request.method == "GET":
         if not remote.Posts.find_one({"_id": ObjectId(post_id)}):
             return "404: Not Found"
@@ -88,15 +142,22 @@ def id(post_id):
             else:
                 res = remote.Posts.find_one({"_id": ObjectId(post_id)})
                 res["_id"] = str(res["_id"])
-                r = make_response(str(json.dumps(res)))
-                r.headers["Access-Control-Allow-Origin"] = "*"
-                return r
+                crossorigin(ret)
     else:
         return "405: Method Not Allowed"
 
+@app.route("/api/v1/posts/tag/<tag>")
+def post_by_tag(tag):
+    '''
+    Returns posts associated with the specified tag
+
+    REST args:
+        tag : the tag to search for
+    '''
+    return ""
 
 @app.route("/api/v1/posts/author/<author>", methods=["GET"])
-def author(author):
+def pass_by_author(author):
     '''
     Returns any posts by <author>
 
@@ -123,7 +184,7 @@ def author(author):
                 ret = []
                 for res in remote.Posts.find({"author": author}).sort("date.created", -1).skip(offset).limit(limit):
                     ret.append(res)
-                return str(ret)
+                return crossorigin(ret)
         except Exception as e:
             print "Unable to establish connection to remote. System returned: "
             print type(e)
@@ -147,9 +208,8 @@ def post_count():
     '''
     if request.method == "GET":
         try:
-            r = make_response(str(remote.Posts.count()))
-            r.headers["Access-Control-Allow-Origin"] = "*"
-            return r
+            ret = remote.Posts.count()
+            return crossorigin(ret)
         except Exception as e:
             print "Unable to establish connection to remote. System returned: "
             print type(e)
@@ -159,4 +219,4 @@ def post_count():
         return "405: Method Not Allowed"
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True, threaded=True)

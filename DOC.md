@@ -5,9 +5,6 @@ The following document is meant to serve as a documentation for the Zipf "Framew
 ## The *Reader*
 The *Reader* is the server-side program that runs an api for interacting with the MongoDB holding a collection of *Posts*. The *Reader* should be configured with a database user that has both read-only permissions.
 
-#### Configuring the *Reader*
-@TODO
-
 #### *Reader* API
 @TODO
 
@@ -34,7 +31,7 @@ After you download or clone this repo, run the following command:
 ```
 $ chmod +x writer.py; sudo cp writer.py /bin/zipf
 ```
-If you're on El Capitan, write protection is write protection is enabled on root directories, so you may want to try copying the script into a different folder. For example: `/usr/local/bin/`. If you receive any strange errors, edit the hashbang declaration on the first line of `writer.py`, then trying again.
+If you're on El Capitan, write protection is enabled on root directories, so you may want to try copying the script into a different folder. For example: `/usr/local/bin/`. If you receive any strange errors, edit the hashbang declaration on the first line of `writer.py`, then trying again.
 
 #### Markdown Flavoring (a.k.a: Zipf Headers)
 When you write a blog post, you write in markdown on your local machine. Using `zipf`, the *Writer* utility, the post gets pushed to the database and thus
