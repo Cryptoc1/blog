@@ -1,8 +1,6 @@
 window.onload = function () {
     var data = parseData()
-    for (i in data) {
-        document.getElementById('content').appendChild(makePostDOMElement(data[i]));
-    }
+    data.map(makePostDOMElement)
 }
 
 function makePostDOMElement(post) {
@@ -17,9 +15,9 @@ function makePostDOMElement(post) {
     a.className = 'post'
 
     // CHANGE ME
-    a.href = '//0.0.0.0:5000/post/' + post._id + '?ref=' + window.location
+    a.href = window.location.host + '/post/' + post._id + '?ref=' + window.location
     a.innerHTML = "<span class=\"post-title\">" + post.title + "</span><span class=\"post-date\">" + parseDate(parseInt(post.date.created)) + "</span><div class=\"post-hint\">" + parseHintFromContentString(post.content) + "</div>"
-    return a
+    document.getElementById('content').appendChild(a)
 }
 
 function parseDate(seconds) {

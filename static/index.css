@@ -70,7 +70,7 @@ nav a:active {
 
 .post:hover .post-title,
 .post:active .post-title {
-    color: #FFC107;
+    color: #FFC107 !important;
 }
 
 .post:visited .post-title {
