@@ -86,7 +86,7 @@ def tag():
 @app.route("/error", methods=["GET"])
 def error():
     print request.args.get('error', '')
-    return render_template('error.html', error=request.args.get('error'. ''))
+    return render_template('error.html', error=request.args.get('error', ''))
 
 
 ##
