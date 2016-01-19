@@ -59,8 +59,3 @@ docs/_build/
 # PyBuilder
 target/
 .env
-
-# Heroku
-Procfile
-requirements.txt
-runtime.txt
