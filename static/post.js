@@ -17,7 +17,7 @@ window.onload = function () {
             else*/
 
     // CHANGE ME!
-    document.getElementById('ref-btn').innerHTML = "<a href=\"" + "//0.0.0.0:5000" + "\"><span class=\"fa fa-home\"></span></a>"
+    document.getElementById('ref-btn').innerHTML = "<a href=\"//" + window.location.host + "\"><span class=\"fa fa-home\"></span></a>"
     document.getElementsByTagName('footer')[0].innerHTML = "<span class=\"fa fa-copyright\">Samuel Steele</span>"
 }
 
