@@ -11,5 +11,5 @@ inserting documents.
 - [ ] Refactor EVERYTHING
         * Make more portable
         * Improve efficiency
-- [ ] :cry: Ajax.. :cold_sweat:
+- [x] :cry: Ajax.. :cold_sweat:
 - [ ] Make some "Zipf Header" parameters optional
