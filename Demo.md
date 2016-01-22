@@ -1,32 +1,29 @@
 start_zipf:
-@title@ Demo Post
+@title@ Code Highlighting Test
 @author@ Samuel Steele
 @email@ steelesam72@gmail.com
 @tags@ demo test zipf
 end_zipf:
 
-# Demo Post
-This post is meant to serve as a demo post for the Zipf blogging framework.
-Zipf supports all sorts of cool Markdown stuff, so have fun.
+# Code Highlighting Test
 
-# Heading 1
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
+This post is a test for my implementation of highlight.js with marked.js.
 
-This is an example of an `inline` code snippet.
+```python
+#!/usr/bin/env python
+
+import os, sys
+
+# this code snippet is literally python lorem ipsum
+
+def foo(x, y):
+    return (str(x), str(y))
+    
+if __name__ == "__main__":
+    if True:
+        print foo(1, 2)
+    else:
+        sys.exit(-1)
 
 ```
-# And this an example of a large block code
-# Hopefully, I can add code highlighting to the MD parser.
 
-def parse_markdown(file):
-    pass
-
-```
-
-Or, if you're not much of a coder and more of a blogger, there's also cool stuff like **BOLDS** and *Italics*.
-
-Here's a link to a YouTube [video](https://youtu.be/fCn8zs912OE).

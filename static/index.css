@@ -1,6 +1,7 @@
 html,
 body {
     width: 100%;
+    /*    height: 200%;*/
     background-color: #F7F7F7;
     font-family: 'Open Sans', Roboto, Helvetica, Arial, sans-serif;
     font-size: 1.25em;
@@ -12,14 +13,8 @@ body {
     padding: 0;
 }
 
-body {
-    font-size: 16pt;
-}
-
-.error {
-    font-family: 'Opens Sans', Roboto, Helvetica, Arial, 'Lora', sans-serif;
-    font-weight: 700;
-    font-size: 20pt;
+a {
+    transition: color .4s;
 }
 
 header {
@@ -45,7 +40,6 @@ nav a {
     font-size: 30pt;
     margin: 6pt;
     padding: 4pt;
-    transition: color .4s;
 }
 
 nav a:hover,
@@ -60,12 +54,27 @@ nav a:active {
     margin: 0 auto;
 }
 
+@keyframes postFadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 .post {
     display: block;
     margin-top: 4%;
     margin-bottom: 4%;
     text-decoration: none;
     color: rgba(42, 42, 42, .94);
+    animation: postFadeIn .45s 1 linear;
+}
+
+.post:hover,
+.post:active {
+    color: inherit !important;
 }
 
 .post:hover .post-title,
@@ -96,6 +105,33 @@ nav a:active {
     padding-top: 1%;
     padding-left: 2%;
     color: rgba(54, 54, 54, .75);
+}
+
+.content-loader {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    font-size: 20pt;
+    /*    animation: contentLoaderSpinAnimation 1.45s infinite;*/
+    animation-duration: 1.45s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes contentLoaderSpinAnimation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.content-loader:hover,
+.content-loader:active {
+    color: #FFC107 !important;
 }
 
 @media screen and (max-width: 700px) {

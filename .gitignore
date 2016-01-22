@@ -1,5 +1,7 @@
 # Personal Stuff
 venv/
+.env
+.zipf/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -58,4 +60,3 @@ docs/_build/
 
 # PyBuilder
 target/
-.env
