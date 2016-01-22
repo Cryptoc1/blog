@@ -3,7 +3,7 @@ var contentLoader = document.querySelector('.content-loader')
 window.onload = function () {
     var data = document.getDataElementByDataId('posts').evalValue
     data.map(makePostDOMElement)
-    if (document.getElementById('content').children.length >= parseInt(document.getDataElementByDataId('count').textContent)) {
+    if (document.getElementById('content').children.length >= parseInt(document.getDataElementByDataId('count').evalValue)) {
         contentLoader.style.animationName = ''
         contentLoader.style.visibility = 'hidden'
     }
@@ -14,7 +14,7 @@ function loadMorePosts() {
     window.request("/api/v1/posts?offset=" + document.getElementById('content').children.length, function (data) {
         data = eval('(' + data + ')')
         data.map(makePostDOMElement)
-        if (document.getElementById('content').children.length >= parseInt(document.getDataElementByDataId('count').textContent)) {
+        if (document.getElementById('content').children.length >= parseInt(document.getDataElementByDataId('count').evalValue)) {
             contentLoader.style.animationName = ''
             contentLoader.style.visibility = 'hidden'
         }
