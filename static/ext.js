@@ -86,3 +86,24 @@ function parseDate(seconds) {
     var date = new Date(seconds * 1000)
     return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
 }
+
+function parseHintFromContentString(str) {
+    var str = str.split('\n')
+
+    // Find the first line that isn't blank or a heading..
+    var i = 0
+    while (true) {
+        if (str[i] == "" | str[i] == " " | str[i] == "\n" | str[i].indexOf("#") == 0) {} else {
+            str = str[i]
+            break
+        }
+        i++
+    }
+    if (str.length > 300) {
+        str = str.substring(0, 300)
+        str += "..."
+    }
+
+    // We have our content "hint"
+    return str
+}
