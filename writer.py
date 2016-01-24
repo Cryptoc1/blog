@@ -77,24 +77,24 @@ class RepoConfig:
         self.config = ConfigParser.ConfigParser()
         self.config.read(os.getcwdu() + "/.zipf/zipf.cfg")
 
-    def set_remote(self, url, db):
+    def set_remote(self, name, url):
         '''
         Sets the repo's remote to <url> with remote <db>
 
         args:
-            url : The url of the new remote
-            db : Name of database located at <url>
+            name : The name of the new remote
+            url : The url of the remote
         '''
-        self.config.set("repo", "remote", str(url + " " + db))
+        self.config.set("repo", name, str(url))
         f = open(os.getcwdu() + "/.zipf/zipf.cfg", "wb")
         self.config.write(f)
         f.close()
 
-    def get_remote(self):
+    def get_remote(self, name):
         '''
         Gets the repo's current remote.
         '''
-        return self.config.get("repo", "remote").split()
+        return self.config.get("repo", name)
 
 class MarkdownParser:
     def __init__(self, path):
@@ -135,14 +135,17 @@ class MarkdownParser:
         self.post = self.post[end:].strip()
 
 class Remote:
-    def __init__(self):
+    def __init__(self, name):
         '''
         Initializes a Remote object, which is used for interacting with Mongo DBs.
+
+        args:
+            name : The name of the remote to connect to
         '''
         try:
-            r = RepoConfig().get_remote()
-            self.client = pymongo.MongoClient(r[0])
-            self.db = self.client[r[1]]
+            uri = RepoConfig().get_remote(name)
+            self.client = pymongo.MongoClient(uri)
+            self.db = self.client[uri[uri.rfind('/') + 1:]]
             self.Posts = self.db.Posts
         except Exception as e:
             print "Unable to establish connection to remote. System returned: "
@@ -197,15 +200,15 @@ def init_dir(force=False):
         os.rmdir(os.getcwdu() + "/.zipf")
         os.makedirs(os.getcwdu() + "/.zipf")
         f = open(os.getcwdu() + unicode("/.zipf/zipf.cfg"), "a")
-        f.write("[repo]\nremote = None")
+        f.write("[repo]\n")
         f.close()
-        print "Repo config created, use `zipf remote set <remote> <url>` to set the DB address"
+        print "Repo config created, use `zipf remote set <name> <url>` to set the DB address"
     else:
         os.makedirs(os.getcwdu() + "/.zipf")
         f = open(os.getcwdu() + unicode("/.zipf/zipf.cfg"), "a")
-        f.write("[repo]\nremote = None")
+        f.write("[repo]\n")
         f.close()
-        print "Repo config created, use `zipf remote set <remote> <url> to set the DB address."
+        print "Repo config created, use `zipf remote set <name> <url> to set the DB address."
 
 def argument_parser():
     '''
@@ -237,9 +240,10 @@ def argument_parser():
             if key == "email":
                 gconfig.set_email(value)
     if sys.argv[1] == "write" or sys.argv[1] == "-w":
-        if sys.argv[2]:
+        if sys.argv[2] and sys.argv[3]:
+            print sys.argv[3]
             gconfig = GlobalConfig()
-            md = MarkdownParser(sys.argv[2])
+            md = MarkdownParser(os.path.abspath(sys.argv[3]))
             header = md.parse_header()
             md.trim_header()
             post = {"date": {}}
@@ -257,14 +261,14 @@ def argument_parser():
             post["content"] = md.post
             post["date"]["created"] = time.time()
             post["date"]["edited"] = time.time()
-            remote = Remote()
+            remote = Remote(sys.argv[2])
             remote.push(post)
         else:
-            print "usage: zipf write|-w file.md"
+            print "usage: zipf write|-w <remote> file.md"
             sys.exit()
     if sys.argv[1] == "read" or sys.argv[1] == "-r":
-        if len(sys.argv) == 2:
-            remote = Remote()
+        if len(sys.argv) == 3:
+            remote = Remote(sys.argv[2])
             posts = remote.pull(None, None, all=True)
             for post in posts:
                 for key in post:
@@ -274,13 +278,13 @@ def argument_parser():
                 for n in range(1, int(os.popen('stty size', 'r').read().split()[1])):
                     line += "-"
                 print line + "\n"
-        elif len(sys.argv) == 4:
-            remote = Remote()
-            post = remote.pull(sys.argv[2], sys.argv[3])
+        elif len(sys.argv) == 5:
+            remote = Remote(sys.argv[2])
+            post = remote.pull(sys.argv[3], sys.argv[4])
             for key in post:
                 print unicode(key) + unicode(": ") + unicode(post[key])
         else:
-            print "usage: zipf read|-r <key> <value>"
+            print "usage: zipf read|-r <remote> [<key> <value>]"
     if sys.argv[1] == "remote":
         if len(sys.argv) > 2:
             if sys.argv[2] == "set":
@@ -288,10 +292,13 @@ def argument_parser():
                     rconfig = RepoConfig()
                     rconfig.set_remote(sys.argv[3], sys.argv[4])
                 else:
-                    print "usage: zipf remote set <url> <database>"
+                    print "usage: zipf remote set <name> <url>"
             if sys.argv[2] == "get":
                 rconfig = RepoConfig()
-                print rconfig.get_remote()
+                if len(sys.argv) == 4:
+                    print rconfig.get_remote(sys.argv[3])
+                else:
+                    print rconfig.get_remote("all")
         else:
             print "usage: zipf remote set <url>"
             sys.exit()

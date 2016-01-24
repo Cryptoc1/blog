@@ -84,7 +84,7 @@ function makePostDOMElement(post) {
 
 function parseDate(seconds) {
     var date = new Date(seconds * 1000)
-    return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+    return ["Jan ", "Feb ", "Mar ", "Apr ", "May ", "Jun ", "Jul ", "Aug ", "Sep ", "Oct ", "Nov ", "Dec "][date.getMonth()] + date.getDate() + ", " + date.getFullYear();
 }
 
 function parseHintFromContentString(str) {
