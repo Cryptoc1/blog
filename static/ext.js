@@ -76,6 +76,8 @@ function makePostDOMElement(post) {
     var a = document.createElement('a');
     a.className = 'post'
     a.href = '/post/' + post._id
+    a.setAttribute('data-id', post._id)
+    a.setAttribute('data-tags', post.tags)
     a.innerHTML = "<span class=\"post-title\">" + post.title + "</span><span class=\"post-date\">" + parseDate(parseInt(post.date.created)) + "</span><div class=\"post-hint\">" + parseHintFromContentString(post.content) + "</div>"
     document.getElementById('content').appendChild(a)
 }
