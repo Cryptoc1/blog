@@ -57,3 +57,51 @@ window.request = function (url, callback, error) {
         xhr.send()
     }
 }
+
+
+/*
+
+    Custom functions
+
+*/
+
+function makePostDOMElement(post) {
+    /*
+     <a class="post" href="">
+        <span class="post-title"></span>
+        <span class="post-date"></span>
+        <div class="post-hint"></div>
+    </a>
+    */
+    var a = document.createElement('a');
+    a.className = 'post'
+    a.href = '/post/' + post._id
+    a.innerHTML = "<span class=\"post-title\">" + post.title + "</span><span class=\"post-date\">" + parseDate(parseInt(post.date.created)) + "</span><div class=\"post-hint\">" + parseHintFromContentString(post.content) + "</div>"
+    document.getElementById('content').appendChild(a)
+}
+
+function parseDate(seconds) {
+    var date = new Date(seconds * 1000)
+    return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+}
+
+function parseHintFromContentString(str) {
+    var str = str.split('\n')
+
+    // Find the first line that isn't blank or a heading..
+    var i = 0
+    while (true) {
+        if (str[i] == "" | str[i] == " " | str[i] == "\n" | str[i].indexOf("#") == 0) {} else {
+            str = str[i]
+            break
+        }
+        i++
+    }
+    if (str.length > 300) {
+        str = str.substring(0, 300)
+        str += "..."
+    }
+
+    // We have our content "hint"
+    return str
+}

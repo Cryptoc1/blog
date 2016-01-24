@@ -32,7 +32,6 @@ def index():
             posts.append(json.dumps(res))
         for i, j in enumerate(posts):
             posts[i] = ast.literal_eval(j)
-
         count = remote.Posts.count()
         return render_template('index.html', posts=posts, count=count)
     except Exception as e:
@@ -40,32 +39,24 @@ def index():
         print e
         return render_template('index.html', error="There was an error loading posts.")
 
-'''TODO
 @app.route("/posts")
 def posts():
     try:
         if remote.Posts.count() < 1:
-            return "404: Not Found\nNo entries."
+            return render_template('posts.html', error="There are no Posts to show you at the moment")
         else:
-            if request.args.get('offset') == None:
-                offset = 0
-            else:
-                offset = int(request.args.get('offset'))
-            if request.args.get('limit') == None:
-                limit = 100
-            else:
-                limit = int(request.args.get('limit'))
-            ret = []
-            for res in remote.Posts.find().sort("date.created", -1).limit(25):
+            posts = []
+            for res in remote.Posts.find().sort("date.created", -1).limit(10):
                 res["_id"] = str(res["_id"])
-                ret.append(json.dumps(res))
-            for i, j in enumerate(ret):
-                ret[i] = ast.literal_eval(j)
-            return render_template('cryptoc1/posts.html', posts=ret)
+                posts.append(json.dumps(res))
+            for i, j in enumerate(posts):
+                posts[i] = ast.literal_eval(j)
+            count = remote.Posts.count()
+            return render_template('posts.html', posts=posts, count=count)
     except Exception as e:
+        print type(e)
         print e
-        return redirect(url_for('error'))
-'''
+        return render_template('posts.html', error="There was an error loading posts.")
 
 @app.route("/post/<post_id>", methods=["GET"])
 def post(post_id):

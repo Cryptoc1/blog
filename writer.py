@@ -73,11 +73,7 @@ class RepoConfig:
     '''
     def __init__(self):
         if not os.path.exists(os.getcwdu() + "/.zipf/zipf.cfg"):
-            if not os.path.exists(os.getcwdu() + "/.zipf"):
-                os.makedirs(os.getcwdu() + "/.zipf")
-            f = open(os.getcwdu() + "/.zipf/zipf.cfg", "a")
-            f.write("[user]\nauthor = None\nemail = None")
-            f.close()
+            print "Directory not initilized, use `zipf init` to do this"
         self.config = ConfigParser.ConfigParser()
         self.config.read(os.getcwdu() + "/.zipf/zipf.cfg")
 
@@ -144,7 +140,6 @@ class Remote:
         Initializes a Remote object, which is used for interacting with Mongo DBs.
         '''
         try:
-            # self.client = pymongo.MongoClient("mongodb://blog-writer:%40Livelifetillde4th@ds047732.mongolab.com:47732/heroku_8k9pzb1d")
             r = RepoConfig().get_remote()
             self.client = pymongo.MongoClient(r[0])
             self.db = self.client[r[1]]
@@ -183,7 +178,10 @@ class Remote:
         args:
         '''
         if all:
-            return self.Posts.find_one()
+            posts = []
+            for post in self.Posts.find():
+                posts.append(post)
+            return posts
         else:
             return self.Posts.find_one({key: value})
 
@@ -194,17 +192,20 @@ def init_dir(force=False):
     if os.path.exists(os.getcwdu() + "/.zipf") and not force:
         print "Zipf repo already created, use `zipf init -f` to force overwrite."
     elif force:
-        os.remove(os.getcwdu() + "/.zipf/zipf.cfg")
+        if os.path.exists(os.getcwdu() + "/zipf/zipf.cfg"):
+            os.remove(os.getcwdu() + "/.zipf/zipf.cfg")
         os.rmdir(os.getcwdu() + "/.zipf")
         os.makedirs(os.getcwdu() + "/.zipf")
         f = open(os.getcwdu() + unicode("/.zipf/zipf.cfg"), "a")
         f.write("[repo]\nremote = None")
         f.close()
+        print "Repo config created, use `zipf remote set <remote> <url>` to set the DB address"
     else:
         os.makedirs(os.getcwdu() + "/.zipf")
         f = open(os.getcwdu() + unicode("/.zipf/zipf.cfg"), "a")
         f.write("[repo]\nremote = None")
         f.close()
+        print "Repo config created, use `zipf remote set <remote> <url> to set the DB address."
 
 def argument_parser():
     '''
@@ -264,14 +265,20 @@ def argument_parser():
     if sys.argv[1] == "read" or sys.argv[1] == "-r":
         if len(sys.argv) == 2:
             remote = Remote()
-            res = remote.pull(None, None, all=True)
-            for i in res:
-                print unicode(i) + unicode(": ") + unicode(res[i])
+            posts = remote.pull(None, None, all=True)
+            for post in posts:
+                for key in post:
+                    print unicode(key) + unicode(": ") + unicode(post[key])
+                print "\n"
+                line = "-"
+                for n in range(1, int(os.popen('stty size', 'r').read().split()[1])):
+                    line += "-"
+                print line + "\n"
         elif len(sys.argv) == 4:
             remote = Remote()
-            res = remote.pull(sys.argv[2], sys.argv[3])
-            for i in res:
-                print unicode(i) + unicode(": ") + unicode(res[i])
+            post = remote.pull(sys.argv[2], sys.argv[3])
+            for key in post:
+                print unicode(key) + unicode(": ") + unicode(post[key])
         else:
             print "usage: zipf read|-r <key> <value>"
     if sys.argv[1] == "remote":

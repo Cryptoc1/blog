@@ -3,10 +3,50 @@
 
 <head>
     <title>Posts</title>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="/static/ext.css" rel="stylesheet">
+    <link href="/static/index.css" rel="stylesheet">
+    <link href="/static/posts.css" rel="stylesheet">
+    <script src="/static/ext.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="theme-color" content="rgba(42, 42, 42, .65)">
+    <data data-id="posts">
+        {{posts}}
+    </data>
+    <data data-id="count">
+        {{count}}
+    </data>
 </head>
 
 <body>
 
+    <header>
+        <div class="ref-btn" id="ref-btn">
+            <a href="/" class="fa fa-home"></a>
+        </div>
+    </header>
+    <br>
+    <div class="search-container">
+        <input id="search-box" type="text" placeholder="Search" autofocus>
+    </div>
+
+    <div id="content">
+        {% if error %}
+        <style>
+            ._error {
+                visibility: hidden;
+            }
+        </style>
+        <div class="error">{{error}}
+            <div>Please reload the webpage, or checkback later</div>
+        </div>
+        {% endif %}
+    </div>
+    <a class="content-loader _error" href="javascript:loadMorePosts()"><span class="fa fa-refresh"></span></a>
 </body>
+<script src="/static/index.js"></script>
+<script src="/static/posts.js"></script>
 
 </html>
