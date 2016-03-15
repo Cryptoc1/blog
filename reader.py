@@ -20,7 +20,7 @@ class Remote:
             print e
             sys.exit(-1)
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 remote = Remote()
 
 @app.route("/", methods=["GET"])
@@ -138,6 +138,10 @@ def post_by_id(post_id):
                 crossorigin(ret)
     else:
         return "405: Method Not Allowed", 405
+
+@app.route('/keybase.txt')
+def send_keybase():
+    return send_from_directory('', 'keybase.txt')
 
 if __name__ == "__main__":
     app.run(debug=True)
