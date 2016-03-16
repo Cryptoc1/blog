@@ -80,7 +80,7 @@ Note that some fields have been simplified for readability.
 
 ## APIs
 
-##### `/api/v1/posts`
+#### `/api/v1/posts`
 Returns an array of posts from the database. Backend always returns only 10 items per request.
 
 Has optional query operator `?offset=<int>`.
