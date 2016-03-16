@@ -1,3 +1,7 @@
+<link href="/static/post.css" rel="stylesheet">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.015/css/hack.min.css">
+<link href="/static/highlight-colors/foundation.css" rel="stylesheet">
+
 <header>
     <div class="ref-btn" id="ref-btn"><a href="/"><span class="fa fa-home"></span></a></div>
 </header>
@@ -5,9 +9,12 @@
 <div class="post" id="post">
     <div class="post-body">
         {{#if error }}
-            <div class="error">{{error}}
+            <div class="error">
+                {{error.code}} :: {{error.body}}
                 <div>Please reload the webpage, or checkback later</div>
             </div>
+        {{else}}
+            {{{content}}}
         {{/if}}
     </div>
 </div>
