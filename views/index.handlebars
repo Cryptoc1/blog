@@ -1,0 +1,24 @@
+<header>
+    <div id="name">Samuel Steele</div>
+    <div style="font-size: 20pt;">Programmer, Reader, Thinker</div>
+    <div>I try to build things.</div>
+    <nav>
+        <a href="//github.com/cryptoc1"><i class="fa fa-github-square"></i></a>
+        <a href="//twitter.com/cryptoc1"><i class="fa fa-twitter-square"></i></a>
+        <a href="//instagram.com/cryptoc1"><i class="fa fa-instagram"></i></a>
+        <a href="//facebook.com/cryptoc1"><i class="fa fa-facebook-official"></i></a>
+    </nav>
+</header>
+<div id="content">
+    {{#if error}}
+        <style>
+            ._error {
+                visibility: hidden;
+            }
+        </style>
+        <div class="error">{{error}}
+            <div>Please reload the webpage, or checkback later</div>
+        </div>
+    {{/if}}
+</div>
+<a class="content-loader _error" href="javascript:loadMorePosts()"><span class="fa fa-refresh"></span></a>

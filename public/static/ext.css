@@ -1,0 +1,44 @@
+html,
+body {
+    font-family: 'Open Sans', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 1.25em;
+    font-weight: 400;
+    color: rgba(42, 42, 42, .94) !important;
+    -webkit-font-smoothing: antialiased;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+    background-color: #F7F7F7;
+}
+
+data {
+    display: none;
+}
+
+body {
+    font-size: 16pt;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover,
+a:active {
+    color: #FFC107;
+}
+
+a:visited {
+    color: inherit;
+}
+
+.error {
+    font-family: 'Opens Sans', Roboto, Helvetica, Arial, 'Lora', sans-serif;
+    font-weight: 700;
+    font-size: 20pt;
+    text-align: center;
+}
+
+.error div {
+    font-size: 13pt;
+    font-weight: 400;
+}
