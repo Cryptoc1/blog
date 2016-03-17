@@ -26,7 +26,7 @@
         "highlight.js": "^9.2.0",
         "marked": "^0.3.5",
         "mongodb": "^2.1.7",
-        "dotenv": "^2.0.0",
+        "dotenv": "^2.0.0"
     },
     "engines": {
         "node": "5.9.0"
