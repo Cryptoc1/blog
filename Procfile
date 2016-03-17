@@ -1,1 +1,1 @@
-web: gunicorn reader:app
+web: node reader.js

@@ -1,0 +1,42 @@
+<link href="/static/index.css" rel="stylesheet">
+<script src="/static/index.js"></script>
+<link href="/static/post.css" rel="prefetch">
+<link href="/static/highlight-colors/foundation.css" rel="prefetch">
+<link href="//cdn.jsdelivr.net/font-hack/2.015/css/hack.min.css" rel="prefetch">
+
+<data data-id="count">{{count}}</data>
+
+<header>
+    <div id="name">Samuel Steele</div>
+    <div style="font-size: 20pt;">Programmer, Reader, Thinker</div>
+    <div>I try to build things.</div>
+    <nav>
+        <a href="//github.com/cryptoc1"><i class="fa fa-github-square"></i></a>
+        <a href="//twitter.com/cryptoc1"><i class="fa fa-twitter-square"></i></a>
+        <a href="//instagram.com/cryptoc1"><i class="fa fa-instagram"></i></a>
+        <a href="//facebook.com/cryptoc1"><i class="fa fa-facebook-official"></i></a>
+    </nav>
+</header>
+<div id="content">
+    {{#if error}}
+        <style>
+            ._error {
+                visibility: hidden;
+            }
+        </style>
+        <div class="error">
+            {{error.code}} :: {{error.body}}
+            <div>Please reload the webpage, or checkback later</div>
+        </div>
+    {{/if}}
+    {{#each posts}}
+        <a class="post" href="/post/{{this._id}}">
+            <span class="post-title">{{this.title}}</span>
+            <span class="post-date">{{this.data.created}}</span>
+            <div class="post-hint">{{this.hint}}</div>
+        </a>
+    {{/each}}
+</div>
+{{#if showLoader}}
+    <a class="content-loader _error" href="javascript:loadMorePosts()"><span class="fa fa-refresh"></span></a>
+{{/if}}

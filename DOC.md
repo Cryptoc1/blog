@@ -56,6 +56,13 @@ Notes:
 #### Post Model
 Note that some fields have been simplified for readability.
 
+
+    @TODO:
+        + Add `count` field to post object
+        + Add `hint` field to post object
+        + Insert `post.content` as HTML in `writer`, instead of as Markdown
+
+
 ```json
 {
     "author": "Samuel Steele",
@@ -70,3 +77,14 @@ Note that some fields have been simplified for readability.
     "email": "steelesam72@gmail.com"
 }
 ```
+
+## APIs
+
+#### `/api/v1/posts`
+Returns an array of posts from the database. Backend always returns only 10 items per request.
+
+Has optional query operator `?offset=<int>`.
+
+
+#### `/api/v1/post/:id`
+Returns a post object identified by `id`.
