@@ -1,0 +1,5 @@
+{
+    "mongoURL": "mongodb://<user>:<pass>@example.com/<database>",
+    "useHints": true,
+    "theme": "cryptoc1"
+}
