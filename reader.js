@@ -9,13 +9,18 @@ var mongo = require('mongodb'),
     MongoClient = mongo.MongoClient,
     ObjectID = mongo.ObjectID
 
+var zipf = require('./lib/zipf.js')
+zipf.init()
+
 dotenv.config()
 
 var url = process.env.REMOTE_URI
 
-app.use(express.static('public'))
+app.use(express.static(zipf.staticPath))
 
+app.set("views", zipf.themePath + "/views/")
 app.engine('handlebars', handlebars({
+    layoutsDir: zipf.themePath + "/views/layouts/",
     defaultLayout: 'default'
 }))
 app.set('view engine', 'handlebars')
@@ -27,6 +32,12 @@ marked.setOptions({
 })
 
 app.get('/', function(req, res) {
+    res.render('index', {
+        test: "Hello world! Thank you for running the all new zipf server."
+    })
+})
+
+/*app.get('/', function(req, res) {
     MongoClient.connect(url, function(err, db) {
         if (err) {
             res.status(522).render('index', Error(522, req.path))
@@ -63,7 +74,7 @@ app.get('/', function(req, res) {
             })
         }
     })
-})
+})*/
 
 app.get('/post/:id', function(req, res) {
     MongoClient.connect(url, function(err, db) {
