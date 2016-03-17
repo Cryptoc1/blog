@@ -60,9 +60,7 @@ window.request = function(url, callback, error) {
 
 
 /*
-
     Custom functions
-
 */
 
 function makePostDOMElement(post) {
@@ -85,4 +83,10 @@ function makePostDOMElement(post) {
 function parseDate(seconds) {
     var date = new Date(seconds * 1000)
     return ["Jan ", "Feb ", "Mar ", "Apr ", "May ", "Jun ", "Jul ", "Aug ", "Sep ", "Oct ", "Nov ", "Dec "][date.getMonth()] + date.getDate() + ", " + date.getFullYear();
+}
+
+// Loading bar and page fade
+window.onbeforeunload = function() {
+    document.querySelector('.loading-bar').style.width = "100%"
+    document.querySelector('.container').style.opacity = 0
 }
