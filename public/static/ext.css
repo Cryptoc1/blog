@@ -40,8 +40,9 @@ a:visited {
     width: 0;
     height: 4px;
     background-color: #FFC107;
-    transition: width .5s;
+    transition: width .45s;
 }
 .container {
-    transition: opacity .35s;
+    opacity: 0;
+    transition: opacity .3s;
 }

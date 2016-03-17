@@ -86,6 +86,10 @@ function parseDate(seconds) {
 }
 
 // Loading bar and page fade
+window.onload = function() {
+    document.querySelector('.container').style.opacity = 1
+}
+
 window.onbeforeunload = function() {
     document.querySelector('.loading-bar').style.width = "100%"
     document.querySelector('.container').style.opacity = 0
