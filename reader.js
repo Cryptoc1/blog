@@ -1,8 +1,6 @@
 var express = require('express'),
     handlebars = require('express-handlebars'),
     dotenv = require('dotenv'),
-    marked = require('marked'),
-    hljs = require('highlight.js'),
     app = express()
 
 var mongo = require('mongodb'),
@@ -14,7 +12,7 @@ zipf.init()
 
 dotenv.config()
 
-var url = process.env.REMOTE_URI
+var url = process.env.REMOTE_URI || zipf.mongoURL
 
 app.use(express.static(zipf.staticPath))
 
@@ -25,19 +23,7 @@ app.engine('handlebars', handlebars({
 }))
 app.set('view engine', 'handlebars')
 
-marked.setOptions({
-    highlight: function(code) {
-        return hljs.highlightAuto(code).value
-    }
-})
-
 app.get('/', function(req, res) {
-    res.render('index', {
-        test: "Hello world! Thank you for running the all new zipf server."
-    })
-})
-
-/*app.get('/', function(req, res) {
     MongoClient.connect(url, function(err, db) {
         if (err) {
             res.status(522).render('index', Error(522, req.path))
@@ -69,12 +55,13 @@ app.get('/', function(req, res) {
                                 showLoader: showLoader
                             })
                         }
+                        db.close()
                     })
                 }
             })
         }
     })
-})*/
+})
 
 app.get('/post/:id', function(req, res) {
     MongoClient.connect(url, function(err, db) {
@@ -98,6 +85,7 @@ app.get('/post/:id', function(req, res) {
                             content: marked(post.content)
                         })
                     }
+                    db.close()
                 })
             }
         }
@@ -127,6 +115,7 @@ app.get('/api/v1/posts', function(req, res) {
                     })
                     res.json(posts)
                 }
+                db.close()
             })
         }
     })
@@ -147,6 +136,7 @@ app.get('/api/v1/post/:id', function(req, res) {
                 } else {
                     res.json(post)
                 }
+                db.close()
             })
         }
     })
