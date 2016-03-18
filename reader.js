@@ -12,7 +12,7 @@ zipf.init()
 
 dotenv.config()
 
-var url = process.env.REMOTE_URI || zipf.mongoURL
+var url = process.env.REMOTE_URI || zipf.remote
 
 app.use(express.static(zipf.staticPath))
 
@@ -37,9 +37,6 @@ app.get('/', function(req, res) {
                     res.status(578).render('index', Error(578, req.path))
                     console.error(err)
                 } else {
-                    posts.map(function(post) {
-                        post.hint = parseHintFromContentString(post.content)
-                    })
                     collection.count(function(err, count) {
                         if (err) {
                             console.error(err)
@@ -82,7 +79,7 @@ app.get('/post/:id', function(req, res) {
                         // @TODO: Render tags
                         res.render('post', {
                             endpoint: post.title,
-                            content: marked(post.content)
+                            content: post.content
                         })
                     }
                     db.close()
@@ -109,10 +106,6 @@ app.get('/api/v1/posts', function(req, res) {
                     res.status(578).json(Error(578, req.path))
                     console.error(err)
                 } else {
-                    posts.map(function(post) {
-                        post.hint = parseHintFromContentString(post.content)
-                        post.content = marked(post.content)
-                    })
                     res.json(posts)
                 }
                 db.close()
@@ -141,25 +134,6 @@ app.get('/api/v1/post/:id', function(req, res) {
         }
     })
 })
-
-function parseHintFromContentString(str) {
-    var str = str.split('\n')
-    // Find the first line that isn't blank or a heading..
-    var i = 0
-    while (true) {
-        if (str[i] == "" | str[i] == " " | str[i] == "\n" | str[i].indexOf("#") == 0) {} else {
-            str = str[i]
-            break
-        }
-        i++
-    }
-    if (str.length > 300) {
-        str = str.substring(0, 300)
-        str += "..."
-    }
-    // We have our content "hint"
-    return str
-}
 
 function Error(code, endpoint) {
     switch (code) {
