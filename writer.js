@@ -170,7 +170,10 @@ MarkdownParser.prototype.parseZipfHeader = function() {
     var metadata = {}
     var header = this.text.slice(11, this.text.indexOf('@end_zipf')).trim()
     header.split("\n").map(function(line) {
-        line = line.split(':= ')
+        line = line.split(':=')
+        for (var i = 0; i < line.length; i++) {
+            line[i] = line[i].trim()
+        }
         if (line[0].trim() == "tags") line[1] = line[1].split(', ')
         metadata[line[0]] = line[1]
     })
