@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 @start_zipf
 title := A fetch and XHR Wrapper
 author := Samuel Steele
 email := steelesam72@gmail.com
 tags := js, javascript, xhr, fetch, ajax
 @end_zipf
+=======
+start_zipf:
+@title@ A fetch and XHR Wrapper
+@author@ Samuel Steele
+@email@ steelesam72@gmail.com
+@tags@ js javascript xhr fetch ajax
+end_zipf:
+>>>>>>> 8f531cfd3b76ba66ea28cf81d551ba3dce998ef6
 
 # A fetch and XHR Wrapper
 
@@ -52,4 +61,8 @@ window.request = function (url, callback, error) {
 }
 ```
 
+<<<<<<< HEAD
 I actually wrote this wrapper when working on this blog. Take note to the profanity in the wrapper. I feel strongly that XHR is disgusting and ugly, and that fetch is a far stronger and logical way of preforming AJAX requests.
+=======
+I actually wrote this wrapper when working on this blog. Take note to the profanity in the wrapper. I feel strongly that XHR is disgusting and ugly, and that fetch is a far stronger and logical way of preforming AJAX requests.
+>>>>>>> 8f531cfd3b76ba66ea28cf81d551ba3dce998ef6

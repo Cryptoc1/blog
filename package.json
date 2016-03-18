@@ -22,6 +22,10 @@
     "dependencies": {
         "express": "^4.13.4",
         "express-handlebars": "^3.0.0",
+<<<<<<< HEAD
+=======
+        "highlight": "^0.2.4",
+>>>>>>> 8f531cfd3b76ba66ea28cf81d551ba3dce998ef6
         "highlight.js": "^9.2.0",
         "marked": "^0.3.5",
         "mongodb": "^2.1.7",

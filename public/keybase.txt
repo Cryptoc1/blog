@@ -1,0 +1,68 @@
+==================================================================
+https://keybase.io/cryptoc1
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://3bytes.xyz
+  * I am cryptoc1 (https://keybase.io/cryptoc1) on keybase.
+  * I have a public key with fingerprint 3BBE F282 022E 5683 C275  DCDC C1E1 4361 DC7E 4237
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "010139884d926bb118c996f2fc51f5e6645bb61a71ce3a83eacedb1d41aeb684c7ff0a",
+            "fingerprint": "3bbef282022e5683c275dcdcc1e14361dc7e4237",
+            "host": "keybase.io",
+            "key_id": "c1e14361dc7e4237",
+            "kid": "010139884d926bb118c996f2fc51f5e6645bb61a71ce3a83eacedb1d41aeb684c7ff0a",
+            "uid": "aed830ecfef109bc6233a5e602ddf219",
+            "username": "cryptoc1"
+        },
+        "service": {
+            "hostname": "3bytes.xyz",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1458067596,
+    "expire_in": 157680000,
+    "prev": "8dd583321e97a94f066720e7a6c1f907881b17f99b9d6e9f9274d030e8017d37",
+    "seqno": 9,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.0.51
+Comment: https://keybase.io/crypto
+
+yMIqAnicrZJZSBVRGMevWVqWkVFKBGbTRiW3ObOf2wI95ENYBEYkldc553yjQ3bn
+NjOaV5GSghbMEtptQakkWh5KgzYoKx80qSDbSygqiWihqCCwzoi99dh5OZyP3/9/
+/t/Hdys9OZSW1HmtpTjR9zKS1HVjb3loRd/KumqBOCwhRKqFtTBwQRkDz4+utZkQ
+EUQkIhkbhsKwpBGCkEEx1izJoiqyVNA0RSVEQ6aOKMimIYNJgRHEFGQC0QyF6pYl
+mkKuYNmxEnDjrh3zua1MCFiSIYmSBKpmyFTSVUYZpQiQImuIUR0USda5sNTxAgUP
+R0wPwrbDa/wRHYj3D/4/5y4fsDOBGbII1AILiZhQTZJlk9uIEmOWhHAAeuDGzHUQ
+pHITcd+hSKjJFXi1wqYQDDboZJCQScIHL1yZqOLKuOtw2inj9VLfj3uRQOcn4gG4
+AUh00CJK7BjjU+SKCnA924kJEcRJ6tuBJ1JUQ9R0FWu5AlTGbReidkCoumaI/AT/
+QAW3NBhTDVmWEGDdxIolapouiaCbGkUWFnXDQATpFsYEMw2whSVdYSLv3hCRzgZm
+7MH6mCNEMI9plnBLzy6JmX65C0JN+/XVQ0NJaaGUYUOC7QqljRjzd+c6Hqf248ze
+k9Az80BpS16x87uqh4zNau6e8qI1f/KyrrfXae3WX7trN295ta9x3Kzbb+bG2i69
+/m6c3nMnq+VMwehasmRh4byc3qLL+3ZuK75xEM/Pa27/diY0/cGcjM+s+0TGBMgj
+9X3pPdnllamjszKXw/7Zk2qeFS7e7c4NN1y8mpLZmr69ur+7qa2jYFpnwe93TY9+
+Xh6fUha+vaBx17cnHx6ym1+eP894dQG/z9x6vqp6xqqGolNTz9bTvvvFzw5NlA43
+ZbdeWXF8ffLjVZ8/9X5t2RyZ/rKh5m54zepfT48WjTySfawkf8LHuiv38oejr+2j
+3jdMSz+36MGPHSOW5gy9t/HC4U3rugv/AI1OR0k=
+=X9Ki
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/cryptoc1
+
+==================================================================
