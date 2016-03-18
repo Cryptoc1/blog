@@ -1,9 +1,1 @@
-{
-    "remote": "mongodb://heroku_8k9pzb1d:rafcr7kird41vjpe1inritjtnc@ds047732.mlab.com:47732/heroku_8k9pzb1d",
-    "author": {
-        "name": "Samuel Steele",
-        "email": "steelesam72@gmail.com"
-    },
-    "useHints": true,
-    "theme": "cryptoc1"
-}
+{"remote":"","author":{"name":"Samuel Steele","email":"steelesam72@gmail.com"},"useHints":true,"theme":"cryptoc1"}
