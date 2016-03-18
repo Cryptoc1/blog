@@ -9,11 +9,12 @@ var mongo = require('mongodb'),
     ObjectID = mongo.ObjectID
 
 var _usage = "usage: zipf [options] \n\
-config <key> <value> [-p]: Read (if -p is present) and set global configuration options \n\
+config [get|set] <key> <value> : Get and set global configuration options \n\
     \tauthor.name <name> : Set the name of the default author for submitting posts to <author> \n\
     \tauthor.email <email> : Set the default author's email to <email> \n\
     \tremote <url> : Set the URL for the mongo database \n\
     \tuseHints <bool> : Set whether or not `hints` should be inserted in documents\n\
+    \tconvertMarkdown <bool> : Set whether or not markdown should converted to HTML when inserted into the database \n\
 help : Print this help message \n\
 read [<key> <value>] : Dump the PostDB, or dump the Post where <key> matches <value> \n\
 write <post.md> : Write the Zipf flavored Markdown to the PostDB"
@@ -39,7 +40,11 @@ var Config = function(path) {
 
 // Writes the config about to the preference file
 Config.prototype.writeFile = function() {
-    fs.writeFileSync(this.preferencesPath, JSON.stringify(this), 'utf8')
+    var prefs = {}
+    for (pref in this) {
+        if (pref != "preferencesPath" && pref != "get" && pref != "set" && pref != "writeFile") prefs[pref] = this[pref]
+    }
+    fs.writeFileSync(this.preferencesPath, JSON.stringify(prefs), 'utf8')
 }
 
 // Helpers for getting config properties
@@ -191,6 +196,7 @@ MarkdownParser.prototype.textWithoutZipfHeader = function() {
 }
 
 // Returns a "hint string" from the post content (in markdown)
+// THIS DOES NOT REMOVE MARKDOWN SYNTAX
 MarkdownParser.prototype.hintFromMarkdownContent = function() {
     var str = this.textWithoutZipfHeader().split("\n")
 
@@ -203,8 +209,8 @@ MarkdownParser.prototype.hintFromMarkdownContent = function() {
         }
         i++
     }
-    if (str.length > 99) {
-        str = str.slice(0, 99)
+    if (str.length > 147) {
+        str = str.slice(0, 147)
         str += "..."
     }
     // We have our "hint"
@@ -214,9 +220,9 @@ MarkdownParser.prototype.hintFromMarkdownContent = function() {
 // Returns a "hint string" from the post content (in HTML/default)
 MarkdownParser.prototype.hintFromContent = function() {
     var str = this.textAsHTML()
-    str = str.slice(str.indexOf('<p>') + 3, str.indexOf('</p>'))
-    if (str.length > 99) {
-        str = str.slice(0, 99)
+    str = str.slice(str.indexOf('<p>') + 3, str.indexOf('</p>')).replace(/(<([^>]+)>)/ig, "")
+    if (str.length > 147) {
+        str = str.slice(0, 147)
         str += "..."
     }
     return str
@@ -292,7 +298,7 @@ function main(args) {
                     created: Math.round(new Date().getTime() / 1000.0),
                     edited: Math.round(new Date().getTime() / 1000.0)
                 }
-                console.log(post)
+                remote.write(post)
             } else {
                 console.log("Invalid use of the write command")
             }
