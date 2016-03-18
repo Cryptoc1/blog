@@ -15,6 +15,7 @@ dotenv.config()
 var url = process.env.REMOTE_URI || zipf.remote
 
 app.use(express.static(zipf.staticPath))
+app.use(express.static('public'))
 
 app.set("views", zipf.themePath + "/views/")
 app.engine('handlebars', handlebars({
