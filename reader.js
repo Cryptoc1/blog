@@ -47,7 +47,7 @@ app.get('/', function(req, res) {
                                 showLoader = true
                             }
                             res.render('index', {
-                                endpoint: "Samuel Steele",
+                                title: "Samuel Steele",
                                 count: count,
                                 posts: posts,
                                 showLoader: showLoader
@@ -79,8 +79,8 @@ app.get('/post/:id', function(req, res) {
                     } else {
                         // @TODO: Render tags
                         res.render('post', {
-                            endpoint: post.title,
-                            content: post.content
+                            title: post.title,
+                            post: post
                         })
                     }
                     db.close()
@@ -136,11 +136,11 @@ app.get('/api/v1/post/:id', function(req, res) {
     })
 })
 
-function Error(code, endpoint) {
+function Error(code, title) {
     switch (code) {
         case 433:
             return {
-                endpoint: endpoint,
+                title: title,
                 success: false,
                 error: {
                     code: 433,
@@ -150,7 +150,7 @@ function Error(code, endpoint) {
             }
         case 522:
             return {
-                endpoint: endpoint,
+                title: title,
                 success: false,
                 error: {
                     code: 522,
@@ -160,7 +160,7 @@ function Error(code, endpoint) {
             }
         case 578:
             return {
-                endpoint: endpoint,
+                title: title,
                 success: false,
                 error: {
                     code: 578,
@@ -170,7 +170,7 @@ function Error(code, endpoint) {
             }
         default:
             return {
-                endpoint: endpoint,
+                title: title,
                 success: false,
                 error: {
                     code: 500,
