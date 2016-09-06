@@ -90,6 +90,10 @@ app.get('/post/:id', function(req, res) {
     })
 })
 
+app.get('/resume', function(res, res) {
+    res.render('resume')
+})
+
 app.get('/api/v1/posts', function(req, res) {
     MongoClient.connect(url, function(err, db) {
         if (err) {
